@@ -5,16 +5,16 @@
 }
 
 :root {
-  --bg: #f4f5f7;
+  --bg: #ffffff;
   --sidebar-bg: #ffffff;
   --surface: #ffffff;
-  --surface-hover: #f0f0f5;
-  --text: #1a1a2e;
-  --text-secondary: #6b7280;
-  --border: #e0e0e6;
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --primary-light: #eef2ff;
+  --surface-hover: #eff6ff;
+  --text: #1e293b;
+  --text-secondary: #64748b;
+  --border: #e2e8f0;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #eff6ff;
   --danger: #ef4444;
   --danger-hover: #dc2626;
   --success: #22c55e;
@@ -23,9 +23,9 @@
   --warning-bg: #fffbeb;
   --priority-high: #ef4444;
   --priority-medium: #f59e0b;
-  --priority-low: #6b7280;
-  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
-  --shadow-lg: 0 10px 25px rgba(0,0,0,0.12);
+  --priority-low: #64748b;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
   --radius: 10px;
   --radius-sm: 6px;
   --transition: 0.2s ease;
@@ -34,16 +34,16 @@
 }
 
 [data-theme="dark"] {
-  --bg: #0f0f1a;
-  --sidebar-bg: #1a1a2e;
-  --surface: #1a1a2e;
-  --surface-hover: #25253e;
-  --text: #e4e4f0;
-  --text-secondary: #9ca3af;
-  --border: #2d2d44;
-  --primary: #818cf8;
-  --primary-hover: #6366f1;
-  --primary-light: #1e1b4b;
+  --bg: #0f172a;
+  --sidebar-bg: #1e293b;
+  --surface: #1e293b;
+  --surface-hover: #334155;
+  --text: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border: #334155;
+  --primary: #60a5fa;
+  --primary-hover: #3b82f6;
+  --primary-light: #1e3a5f;
   --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
   --shadow-lg: 0 10px 25px rgba(0,0,0,0.4);
   --success-bg: #052e16;
@@ -335,6 +335,15 @@ textarea:focus {
 
 #addTaskBtn:hover, .btn-primary:hover {
   background: var(--primary-hover);
+}
+
+[data-theme="dark"] #addTaskBtn, [data-theme="dark"] .btn-primary {
+  background: #1d4ed8;
+}
+
+[data-theme="dark"] #addTaskBtn:hover, [data-theme="dark"] .btn-primary:hover {
+  background: #1e40af;
+}
 }
 
 .btn-secondary {
