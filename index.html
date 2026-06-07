@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <h1>Task Manager</h1>
+        <button id="themeToggle" class="icon-btn" title="Toggle theme">🌙</button>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-btn active" data-view="all">All Tasks</button>
+        <button class="nav-btn" data-view="today">Today</button>
+        <button class="nav-btn" data-view="calendar">Calendar</button>
+        <button class="nav-btn" data-view="focus">Focus Mode</button>
+        <button class="nav-btn" data-view="archived">Archived</button>
+      </nav>
+      <div class="sidebar-stats">
+        <div class="stat"><span class="stat-label">Total:</span><span id="totalCount">0</span></div>
+        <div class="stat"><span class="stat-label">Completed:</span><span id="completedCount">0</span></div>
+      </div>
+      <div class="sidebar-footer">
+        <button id="sortBtn" class="btn-secondary">Sort ▾</button>
+        <div id="sortMenu" class="dropdown-menu hidden">
+          <button data-sort="createdAt">Creation Date</button>
+          <button data-sort="dueDate">Due Date</button>
+          <button data-sort="priority">Priority</button>
+        </div>
+      </div>
+    </aside>
+
+    <main id="main">
+      <div id="viewHeader">
+        <h2 id="viewTitle">All Tasks</h2>
+      </div>
+
+      <div id="taskFormContainer">
+        <form id="taskForm">
+          <div class="form-row">
+            <input type="text" id="taskTitle" placeholder="Task title..." required>
+            <button type="submit" id="addTaskBtn">Add Task</button>
+          </div>
+          <div class="form-row form-extras hidden" id="formExtras">
+            <textarea id="taskDescription" placeholder="Description..."></textarea>
+            <textarea id="taskNotes" placeholder="Notes..."></textarea>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="taskDueDate">Due Date</label>
+                <input type="date" id="taskDueDate">
+              </div>
+              <div class="form-group">
+                <label for="taskDueTime">Due Time</label>
+                <input type="time" id="taskDueTime">
+              </div>
+              <div class="form-group">
+                <label for="taskPriority">Priority</label>
+                <select id="taskPriority">
+                  <option value="low">Low</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="taskRecurring">Recurring</label>
+                <select id="taskRecurring">
+                  <option value="none">None</option>
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="custom">Custom (X days)</option>
+                </select>
+              </div>
+              <div class="form-group" id="customIntervalGroup" style="display:none">
+                <label for="taskCustomInterval">Every X days</label>
+                <input type="number" id="taskCustomInterval" min="1" value="7">
+              </div>
+            </div>
+            <button type="button" id="collapseFormBtn" class="btn-text">Less options ▲</button>
+          </div>
+          <button type="button" id="expandFormBtn" class="btn-text">More options ▼</button>
+        </form>
+      </div>
+
+      <div id="focusBar" class="hidden">
+        <div id="focusTask">
+          <span id="focusTimer">00:00:00</span>
+          <span id="focusTaskTitle"></span>
+          <button id="focusStopBtn" class="btn-secondary">Stop Focus</button>
+        </div>
+      </div>
+
+      <div id="taskList"></div>
+      <div id="emptyState" class="hidden">No tasks yet. Add one above!</div>
+
+      <div id="calendarView" class="hidden">
+        <div class="calendar-header">
+          <button id="calPrevBtn">&lt;</button>
+          <span id="calMonthYear"></span>
+          <button id="calNextBtn">&gt;</button>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+        <div id="calendarTasks"></div>
+      </div>
+
+      <div id="focusModeView" class="hidden">
+        <div class="focus-setup">
+          <h3>Focus Mode</h3>
+          <p>Select a task and start a focused work session.</p>
+          <select id="focusTaskSelect"></select>
+          <button id="focusStartBtn" class="btn-primary">Start Focus Session</button>
+        </div>
+      </div>
+
+      <div id="archivedView" class="hidden">
+        <h3>Archived Tasks</h3>
+        <div id="archivedList"></div>
+      </div>
+    </main>
+  </div>
+
+  <div id="taskModal" class="modal hidden">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <h3 id="modalTitle">Edit Task</h3>
+      <form id="modalForm">
+        <input type="hidden" id="modalTaskId">
+        <div class="form-group">
+          <label for="modalTaskTitle">Title</label>
+          <input type="text" id="modalTaskTitle" required>
+        </div>
+        <div class="form-group">
+          <label for="modalTaskDescription">Description</label>
+          <textarea id="modalTaskDescription" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="modalTaskNotes">Notes</label>
+          <textarea id="modalTaskNotes" rows="3"></textarea>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="modalDueDate">Due Date</label>
+            <input type="date" id="modalDueDate">
+          </div>
+          <div class="form-group">
+            <label for="modalDueTime">Due Time</label>
+            <input type="time" id="modalDueTime">
+          </div>
+          <div class="form-group">
+            <label for="modalPriority">Priority</label>
+            <select id="modalPriority">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="modalStatus">Status</label>
+            <select id="modalStatus">
+              <option value="todo">To Do</option>
+              <option value="in-progress">In Progress</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">Save</button>
+          <button type="button" class="btn-secondary modal-close-btn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
